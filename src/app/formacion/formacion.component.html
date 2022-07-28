@@ -1,0 +1,363 @@
+
+<div class="p-3 fs-2 border-top bg-danger text-light">
+<a name="Formacion"><h4>Formación</h4> </a>
+
+<div> 
+  <div class="text-left">
+      <button type="button" class="btn btn-dark" (click)="onOpenModal('add')">
+        <a class="nav-link" style="color:aliceblue">
+        Añadir Formación<span class="sr-only"> (current) </span>
+        </a>
+      </button>
+  </div>
+</div>
+<div id="main-container">
+  <div *ngFor="let formacion of formaciones">
+  <h5><ul type="square">
+    <li> <img src="{{ formacion.imagenEdu }}" height="34">
+       {{ formacion.fechaEdu }} - 
+       {{ formacion.tituloEdu }} - 
+       {{ formacion.descEdu }}
+    
+       <div class="col text-center">
+        <a 
+          (click)="onOpenModal('edit', formacion)"
+          class="btn btn-light tooltips"
+          data-placement="top"
+          data-toggle="tooltip"
+          data-original-title="Edit">
+          <i class="fa fa-pencil"></i></a>
+     
+        <a 
+        (click)="onOpenModal('delete', formacion)"
+          class="btn btn-secondary tooltips"
+          data-placement="top"
+          data-toggle="tooltip"
+          data-original-title="Delete">
+          <i class="fa fa-times"></i></a>
+      </div>
+
+    </li><br>
+  
+    </ul> </h5>
+    
+
+  </div>
+</div>
+</div>
+
+<!-- MODAL AÑADIR EDUCACIÓN-->
+<div class="modal fade"
+     id="addFormacionModal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="addFormacionModalLabel"
+     aria-hidden="true">
+
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addFormacionModalLabel">Añadir Formación</h5>
+          
+          <button
+          type="button"
+          class="btn-close"
+          data-dismiss="modal"
+          aria-label="Close">
+
+          </button>
+
+        </div>
+
+        <div class="modal-body">
+          <form #addForm="ngForm" (ngSubmit)="onAddFormacion(addForm)">
+              <div class="form-group">
+                <label for="tituloEdu">Título Alcanzado</label>
+                <input 
+                type="text" 
+                ngModel
+                name="tituloEdu"
+                class="form-control"
+                id="tituloEdu"
+                placeholder="Título"
+                required
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="fechaEdu">Período de Realización</label>
+                <input type="text" 
+                ngModel
+                name="fechaEdu"
+                class="form-control"
+                id="fechaEdu"
+                placeholder="mm/yyyy - mm/yyyy"
+                required
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="descEdu">Descripción Formación</label>
+                <input type="text" 
+                ngModel
+                name="descEdu"
+                class="form-control"
+                id="descEdu"
+                placeholder="Descripción"
+                required
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="imagenEdu">Imagen</label>
+                <input type="text" 
+                ngModel
+                name="imagenEdu"
+                class="form-control"
+                id="imagenEdu"
+                placeholder="URL Imagen"
+                required
+                >
+              </div>
+
+
+              <div class="modal-footer">
+                <button 
+                type="button"
+                id="add-formacion-form" 
+                class="btn btn-secondary"
+                data-dismiss="modal"
+                >
+                Cerrar
+                </button>
+
+                <button [disabled]="addForm.invalid"
+                  type="submit"
+                  class="btn btn-primary"
+                  >
+                Añadir nueva Formación
+                </button>
+
+              </div>
+          </form>
+        </div>
+
+      </div>
+
+   </div>
+</div>
+
+<!--EDITAR MODAL FORMACIÓN-->
+
+<div 
+ class="modal fade"
+ id="editFormacionModal"
+ tabindex="-1"
+ role="dialog"
+ aria-labelledby="formacionEditModalLabel"
+ aria-hidden="true"
+ >
+
+ <div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="updateFormacionModalLabel">
+        Editar Formación {{ editFormacion?.tituloEdu}}
+      </h5>
+      <button 
+      type="button"
+      class="btn-close"
+      data-dismiss="modal"
+      aria-label="Close"
+      >
+   
+    </button>
+    </div>
+    <div class="modal-body">
+      <form #editForm="ngForm">
+        <div class="form-group">
+          <label for="name">Título Alcanzado</label>
+          
+          <input
+          type="text"
+          ngModel="{{editFormacion?.tituloEdu}}"
+          name="tituloEdu"
+          class="form-control"
+          id="tituloEdu"
+          aria-describedby="emailHelp"
+          placeholder="Título"
+          />
+        </div>
+
+        <input
+        type="hidden"
+        ngModel="{{editFormacion?.idEdu}}"
+        name="idEdu"
+        class="form-control"
+        id="idEdu"
+        placeholder=""
+        />
+
+        <div class="form-group">
+          <label for="descEdu">Descripción Formación</label>
+          <input type="text"
+          ngModel="{{editFormacion?.descEdu}}"
+          name="descEdu"
+          class="form-control"
+          id="descEdu"
+          placeholder="Descripcion"
+          />
+
+        </div>
+
+        <div class="form-group">
+          <label for="fechaEdu">Período de Realización</label>
+          <input 
+          type="text"
+          ngModel="{{editFormacion?.fechaEdu}}"
+          name="fechaEdu"
+          class="form-control"
+          id="fechaEdu"
+          placeholder="mm/yyyy - mm/yyyy"
+          />
+
+        </div>
+
+        <div class="form-group">
+          <label for="imagenEdu">Imagen</label>
+          <input 
+          type="text"
+          ngModel="{{editFormacion?.imagenEdu}}"
+          name="imagenEdu"
+          class="form-control"
+          id="imagenEdu"
+          placeholder="URL Imagen"
+          />
+
+        </div>
+
+        <div class="modal-footer">
+          <button 
+          type="button"
+          id="update-formacion-form" 
+          class="btn btn-secondary"
+          data-dismiss="modal"
+          >
+          Cerrar
+          </button>
+
+          <button 
+            (click)="onUpdateFormacion(editForm.value)"
+            data-dismiss="modal"
+            class="btn btn-primary"
+            >
+          Guardar cambios
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+ </div>
+</div>
+
+
+<!--DELETE MODAL FORMACIÓN-->
+
+<div 
+data-bs-toogle="modal"
+data-bs-target="#deleteModalLabel"
+ class="modal fade"
+ id="deleteFormacionModal"
+ tabindex="-1"
+ role="dialog"
+ aria-labelledby="formacionDeleteModalLabel"
+ aria-hidden="true"
+ >
+
+ <div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="deleteFormacionModalLabel">
+        Borrar {{deleteFormacion?.tituloEdu}}
+      </h5>
+      <button 
+      type="button"
+      class="btn-close"
+      data-dismiss="modal"
+      aria-label="Close"
+      >
+
+    </button>
+    </div>
+    <div class="modal-body">
+      <p> ¿Estás seguro que querés borrar {{deleteFormacion?.tituloEdu}}?</p>
+
+        <div class="form-group">
+          
+          
+        <div class="modal-footer">
+          <button 
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+          >
+          No
+          </button>
+
+          <button 
+            (click)="onDeleteFormacion(deleteFormacion!.idEdu)"
+            class="btn btn-danger"
+            data-dismiss="modal"
+            >
+          Si
+          </button>
+        </div>
+     </div>
+  </div>
+ </div>
+</div>
+
+<!-- CUANDO NO HAY FORMACIÓN-->
+
+<div *ngIf="formaciones?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+  <div class="alert alert-info" role="alert">
+    <h4 class="alert-heading">Sin formación especificada</h4>
+    <p>Formación no encontrada</p>
+  </div>
+ </div>
+</div>
+
+<!-- FORMACION DESDE DB EJEMPLO
+<div class="row" *ngFor="let formacion of formaciones">
+  <div class="col-3">
+   <img src="{{formacion.imagenEdu}}" alt="">
+  </div>
+ 
+  <div class="col-6">
+   <h1>{{formacion.tituloEdu}}</h1>
+ </div>
+ 
+ <div class="col-9">
+   {{formacion.fechaEdu}}
+ </div>
+ 
+ <div class="col-12">
+   {{formacion.descEdu}}
+ </div>
+ 
+ </div>
+ -->
+
+<!-- FORMACION BOOTSTRAP
+  <div class="p-3 fs-2 border-top bg-danger text-light">
+    <a name="Formacion"><h4>Formación</h4> </a>
+    <h5><ul type="square">
+      <li> <img src="../../assets/img/Logo-Arg-Prog.png" height="34"> 2022 - #YoProgramo - Argentina Programa</li><br>
+      <li> <img src="../../assets/img/Logo-Arg-Prog.png" height="34"> 2021 - #SeProgramar - Argentina Programa</li><br>
+      <li> <img src="../../assets/img/codoACodo.png" height="34"> 2017 - CODO A CODO 2.0 - GCBA</li><br>
+      <li> <img src="../../assets/img/ProgTuFut.png" height="34"> 2015 - Programá tu Futuro - GCBA</li>
+    </ul> </h5>
+    
+  </div>
+FIN FORMACION BOOTSTRAP -->
+
